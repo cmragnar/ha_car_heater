@@ -6,8 +6,9 @@ cards:
     hour_mode: 24
     hide:
       name: true
+      seconds: true
     hour_step: 1
-    minute_step: 5
+    minute_step: 10
     second_step: 5
     name: ''
     layout:
@@ -16,13 +17,21 @@ cards:
       align_controls: center
   - type: entities
     entities:
-      - entity: input_boolean.car_heater_weekday
-      - type: section
       - entity: input_boolean.car_heater_enable
-      - entity: switch.car_heater
+        name: Aktivera motorvärmare
+      - entity: input_boolean.car_heater_weekday
+        name: Endast veckodag
+      - entity: switch.garage_320
+        name: Garage plugg
+        icon: mdi:power-socket-eu
       - type: section
       - entity: sensor.car_heater_run_time
+        name: Beräknad gångtid
       - entity: sensor.car_heater_start_time
+        name: Beräknad starttid
+      - entity: sensor.garage_plug_w
+        icon: mdi:power
+      - entity: sensor.balkongvagg_393
       - type: section
       - entity: sensor.car_heater_status
-      - entity: weather.home
+        name: Status
