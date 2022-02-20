@@ -12,4 +12,6 @@ Packages foler must be included in HA config file.
 
 Entities in the package file must be setup. All entities are marked as #CHANGE-ME in the car_heater.yaml file.
 
-Lovelace example is included.
+Lovelace example is included in sample_lovelace_ui.yaml
+
+
