@@ -14,4 +14,7 @@ Entities in the package file must be setup. All entities are marked as #CHANGE-M
 
 Lovelace example is included in sample_lovelace_ui.yaml
 
+Go support kotope as he is the original developer.
+https://github.com/kotope
+
 
