@@ -6,8 +6,10 @@ Automated car heater package for Home Assistant to pre-heat your car at specifie
 Requirements: Home Assistant and HA supported plug with energy consumption measurement.
 
 ####
-Full setup guide and introduction at https://www.creatingsmarthome.com/?p=769
+Download the car_heater.yaml package and copy to Home Assistant packages foldery.
+Packages foler must be included in HA config file.
+![image](https://user-images.githubusercontent.com/52965048/154841791-939bd6f0-5ed3-4b2d-89d7-5f4a53a0414e.png)
 
-## Support the developer?
-[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/tokorhon)
+Entities in the package file must be setup. All entities are marked as #CHANGE-ME in the car_heater.yaml file.
 
+Lovelace example is included.
