@@ -5,8 +5,6 @@
 #Search for CHANGE-ME and adapt to your instance.
 #
 #
-#
-
 #*******************
 #*** Automations ***
 #*******************
@@ -24,7 +22,7 @@ automation:
       data_template:
         entity_id: input_number.car_heater_3h_before_temp
         # CHANGE-ME: outside temperature sensor
-        value: "{{ states('sensor.balkongvagg_393') }}"
+        value: "{{ states('sensor.balkong_temperature') }}"
     - event: car_heater_timer_enabled
 
   - id: 'car_heater_start_if_needed'
@@ -42,7 +40,7 @@ automation:
     action:
     - service: switch.turn_on
       # CHANGE-ME: car heater power switch
-      entity_id: switch.garage_320
+      entity_id: switch.motorvarmare
 
 #****************************************
   - id: 'car_heater_push'
@@ -51,13 +49,13 @@ automation:
     trigger:
     - platform: state
       # CHANGE-ME: car heater power switch
-      entity_id: switch.garage_320
+      entity_id: switch.motorvarmare
       from: 'off'
       to: 'on'
     condition: []
     action:
     # CHANGE-ME: power consumption sensor
-    - wait_template: '{{ states(''sensor.garage_plug_w'') | float
+    - wait_template: '{{ states(''sensor.motorvarmare_power'') | float
         > 0.0 }}'
       timeout: 00:00:10
       continue_on_timeout: true
@@ -67,7 +65,7 @@ automation:
           value_template: '{{ not wait.completed }}'
         sequence:
           # CHANGE-ME: mobile app notification device
-          - service: notify.mobile_app_pixel5
+          - service: notify.mobile_app_christian
             data:
               message: Car heating power cable is not connected!
               title: Car heater
@@ -106,7 +104,7 @@ automation:
     action:
     - service: switch.turn_on
       # CHANGE-ME: car heater power switch
-      entity_id: switch.garage_320
+      entity_id: switch.motorvarmare
 
 #****************************************
   - id: 'car_heater_departure'
@@ -140,7 +138,7 @@ automation:
     action:
     - service: switch.turn_off
       # CHANGE-ME: car heater power switch
-      entity_id: switch.garage_320
+      entity_id: switch.motorvarmare
 
 #****************************************
   - id: 'car_heater_temp_sample_3h'
@@ -174,7 +172,7 @@ automation:
       data_template:
         entity_id: input_number.car_heater_3h_before_temp
         # CHANGE-ME: outside temperature sensor
-        value: "{{ states('sensor.balkongvagg_393') }}"
+        value: "{{ states('sensor.balkong_temperature') }}"
 
 #****************************************
   - id: 'Max on 3h'
@@ -189,12 +187,12 @@ automation:
           hours: 3
           minutes: 0
           seconds: 0
-        entity_id: switch.garage_320
+        entity_id: switch.motorvarmare
         state: 'on'
     action:
       - service: switch.turn_off
         target:
-          entity_id: switch.garage_320
+          entity_id: switch.motorvarmare
 
 #*********************
 #*** Input sensors ***
@@ -275,13 +273,13 @@ sensor:
         # CHANGE-ME: car heater power switch (note: two entrys in this block)
         value_template: >
           {% if is_state('input_boolean.car_heater_enable', 'on') %}
-            {% if is_state('switch.garage_320', 'on') %}
+            {% if is_state('switch.motorvarmare', 'on') %}
               Motorvärmare är aktiv och kommer att stoppas kl {{ states.input_datetime.car_heater_departure_time.state }}
             {% else %}
               Motorvärmare startar ca kl {{ states.sensor.car_heater_start_time.state }} och kommer att stoppas kl {{ states.input_datetime.car_heater_departure_time.attributes.timestamp  | timestamp_custom("%H:%M", false) }}
             {% endif%}
           {% else %}
-            {% if is_state('switch.garage_320', 'on') %}
+            {% if is_state('switch.motorvarmare', 'on') %}
               Motorvärmaren är aktiv och styrs manuellt!
             {% else %}
               Ingen motorvärmning planerad
