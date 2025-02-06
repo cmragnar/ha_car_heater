@@ -2,6 +2,8 @@ First, Go support kotope as he is the original developer of the package.
 https://github.com/kotope
 Big thanks to him!
 
+[![Open your Home Assistant instance and show the blueprint import dialog with a specific blueprint pre-filled.](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2Fcmragnar%2Fha_car_heater_switch%2Fblob%2Fmain%2FCar_heater_switch.yaml)
+
 ### **🚗 Car Heater Automation Blueprint - How It Works**  
 
 1. **User Configuration:**  
