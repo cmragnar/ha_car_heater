@@ -1,37 +1,75 @@
-type: vertical-stack
-title: Car Heater
-cards:
-  - type: custom:time-picker-card
-    entity: input_datetime.car_heater_departure_time
-    hour_mode: 24
-    hide:
-      name: true
-      seconds: true
-    hour_step: 1
-    minute_step: 10
-    second_step: 5
-    name: ''
-    layout:
-      embedded: true
-      name: header
-      align_controls: center
-  - type: entities
-    entities:
-      - entity: input_boolean.car_heater_enable
-        name: Aktivera motorvärmare
-      - entity: input_boolean.car_heater_weekday
-        name: Endast veckodag
-      - entity: switch.garage_320
-        name: Garage plugg
-        icon: mdi:power-socket-eu
-      - type: section
-      - entity: sensor.car_heater_run_time
-        name: Beräknad gångtid
-      - entity: sensor.car_heater_start_time
-        name: Beräknad starttid
-      - entity: sensor.garage_plug_w
-        icon: mdi:power
-      - entity: sensor.balkongvagg_393
-      - type: section
-      - entity: sensor.car_heater_status
-        name: Status
+type: conditional
+conditions:
+  - entity: input_boolean.car_heater_enable
+    state: "on"
+card:
+  type: vertical-stack
+  cards:
+    - type: conditional
+      conditions:
+        - entity: switch.motorvarmare
+          state: "on"
+      card:
+        type: markdown
+        content: >
+          ⚠️ **Motorvärmare aktiv**
+
+          Den kommer att stängas av **{{
+          states('input_datetime.car_heater_departure_time') }}**.
+    - type: entities
+      title: 🚗 Styrning av motorvärmare
+      entities:
+        - entity: input_boolean.car_heater_enable
+          name: Aktivera motorvärmare
+        - entity: input_boolean.car_heater_weekday
+          name: Endast  Mån - Fre
+        - entity: switch.motorvarmare
+          name: Garage plugg
+          icon: mdi:power-socket-eu
+        - entity: input_datetime.car_heater_departure_time
+          type: custom:time-picker-card
+          hour_mode: 24
+          link_values: true
+          layout:
+            hour_mode: single
+            name: header
+            thin: true
+            embedded: true
+            align_controls: right
+          minute_step: 10
+          hide:
+            name: false
+            icon: false
+            seconds: true
+          name: Avgångstid för motorvärmare
+    - type: entities
+      entities:
+        - entity: sensor.car_heater_status
+          name: Status
+          icon: mdi:information
+        - entity: sensor.car_heater_start_time
+          name: Beräknad starttid
+        - entity: sensor.motorvarmare_power
+          icon: mdi:power
+        - entity: sensor.balkong_temperature
+        - entity: sensor.car_heater_time_until_departure
+          name: Tid till avresa
+          icon: mdi:timer
+      title: 🔥 Status motorvärmare
+    - type: conditional
+      conditions:
+        - condition: state
+          entity: switch.motorvarmare
+          state: "on"
+      card:
+        type: gauge
+        entity: sensor.motorvarmare_power
+        name: Power Consumption
+        min: 0
+        max: 2000
+        severity:
+          green: 100
+          yellow: 1000
+          red: 1500
+        tap_action:
+          action: none
